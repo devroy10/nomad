@@ -32,7 +32,7 @@ zerops:
       ports:
         - port: 3001
         - port: 5140
-          protocol: UDP
+          protocol: udp
       envVariables:
         DATABASE_URL: ${db_connectionString}/${db_dbName}
         API_INTERNAL_URL: http://api:3000
