@@ -1,0 +1,27 @@
+{
+  "name": "nomad",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Nomad — the SRE Zerops doesn't come with. Watches a live Zerops deployment, diagnoses failures with Claude, and applies real fixes via the Zerops REST API.",
+  "packageManager": "pnpm@10.27.0",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "typecheck": "pnpm -r run typecheck",
+    "db:generate": "pnpm --filter @nomad/db run generate",
+    "db:migrate": "pnpm --filter @nomad/db run migrate",
+    "db:push": "pnpm --filter @nomad/db run db:push",
+    "dev:worker": "pnpm --filter @nomad/worker run dev",
+    "dev:api": "pnpm --filter @nomad/api run dev",
+    "dev:target": "pnpm --filter @nomad/target run dev",
+    "dev:frontend": "pnpm --filter @nomad/frontend run dev"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
+  }
+}

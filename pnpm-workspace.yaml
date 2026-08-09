@@ -1,0 +1,9 @@
+packages:
+  - shared
+  - db
+  - api
+  - worker
+  - target
+  - frontend
+  - packages/registry
+  - packages/tsconfig

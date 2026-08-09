@@ -1,0 +1,70 @@
+zerops:
+  - setup: api
+    build:
+      base: nodejs@22
+      buildCommands:
+        - corepack enable
+        - pnpm install --frozen-lockfile
+        - pnpm --filter @nomad/api... run build
+      deployFiles:
+        - .
+    run:
+      start: node api/dist/index.js
+      initCommands:
+        - zsc execOnce ${appVersionId} -- node db/dist/migrate.js
+      ports:
+        - port: 3000
+      envVariables:
+        DATABASE_URL: ${db_connectionString}/${db_dbName}
+        API_INTERNAL_URL: http://api:3000
+
+  - setup: worker
+    build:
+      base: nodejs@22
+      buildCommands:
+        - corepack enable
+        - pnpm install --frozen-lockfile
+        - pnpm --filter @nomad/worker... run build
+      deployFiles:
+        - .
+    run:
+      start: node worker/dist/index.js
+      ports:
+        - port: 3001
+        - port: 5140
+          protocol: UDP
+      envVariables:
+        DATABASE_URL: ${db_connectionString}/${db_dbName}
+        API_INTERNAL_URL: http://api:3000
+
+  - setup: target
+    build:
+      base: nodejs@22
+      buildCommands:
+        - corepack enable
+        - pnpm install --frozen-lockfile
+        - pnpm --filter @nomad/target... run build
+      deployFiles:
+        - .
+    run:
+      start: node target/dist/index.js
+      ports:
+        - port: 4000
+      envVariables:
+        SYSLOG_URL: ${worker_hostname}:5140
+
+  - setup: frontend
+    build:
+      base: nodejs@22
+      buildCommands:
+        - corepack enable
+        - pnpm install --frozen-lockfile
+        - pnpm --filter @nomad/frontend... run build
+      deployFiles:
+        - .
+    run:
+      start: node node_modules/next/dist/bin/next start frontend -p 3000
+      ports:
+        - port: 3000
+      envVariables:
+        API_INTERNAL_URL: http://api:3000
