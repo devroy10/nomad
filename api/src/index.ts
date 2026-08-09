@@ -15,6 +15,21 @@ app.register(chatRoutes, { prefix: "/api/chat" });
 app.register(demoRoutes, { prefix: "/api/demo" });
 app.register(fixesRoutes, { prefix: "/api/fixes" });
 
+app.get("/", async () => {
+  return {
+    ok: true,
+    service: "nomad-api",
+    endpoints: [
+      "/api/incidents",
+      "/api/logs",
+      "/api/chat",
+      "/api/demo/break",
+      "/api/demo/heal",
+      "/api/fixes/:incidentId/apply",
+    ],
+  };
+});
+
 const port = Number(process.env.PORT ?? 3000);
 
 try {
