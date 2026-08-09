@@ -14,6 +14,7 @@ zerops:
         - zsc execOnce ${appVersionId} -- node db/dist/migrate.js
       ports:
         - port: 3000
+          httpSupport: true
       envVariables:
         DATABASE_URL: ${db_connectionString}/${db_dbName}
         API_INTERNAL_URL: http://api:3000
@@ -31,6 +32,7 @@ zerops:
       start: node worker/dist/index.js
       ports:
         - port: 3001
+          httpSupport: true
         - port: 5140
           protocol: udp
       envVariables:
@@ -50,6 +52,7 @@ zerops:
       start: node target/dist/index.js
       ports:
         - port: 4000
+          httpSupport: true
       envVariables:
         SYSLOG_URL: ${worker_hostname}:5140
 
@@ -66,5 +69,6 @@ zerops:
       start: node node_modules/next/dist/bin/next start frontend -p 3000
       ports:
         - port: 3000
+          httpSupport: true
       envVariables:
         API_INTERNAL_URL: http://api:3000
