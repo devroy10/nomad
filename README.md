@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="frontend/public/media/banner.png" alt="Nomad" width="300" />
+  <img src="frontend/public/media/banner.png" alt="Nomad" width="640" />
 </p>
 <p align="center">
   <strong>The Agentic SRE for Zerops Cloud deployments.</strong>
