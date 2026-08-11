@@ -20,9 +20,29 @@ const commitMono = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://frontend-1f0-3000.ny1.zerops.app"),
   title: "Nomad | The Agentic SRE for Zerops Cloud deployments",
   description:
     "Nomad watches a live Zerops deployment, detects anomalies in forwarded syslog, diagnoses failures with Claude, and applies real fixes through the Zerops REST API.",
+  applicationName: "Nomad",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "Nomad",
+    title: "Nomad | The Agentic SRE for Zerops Cloud deployments",
+    description:
+      "Nomad watches a live Zerops deployment, detects anomalies in forwarded syslog, diagnoses failures with Claude, and applies real fixes through the Zerops REST API.",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nomad | The Agentic SRE for Zerops Cloud deployments",
+    description:
+      "Nomad watches a live Zerops deployment, detects anomalies in forwarded syslog, diagnoses failures with Claude, and applies real fixes through the Zerops REST API.",
+  },
   icons: {
     icon: [
       { url: "/favicon-light.png", media: "(prefers-color-scheme: light)" },
