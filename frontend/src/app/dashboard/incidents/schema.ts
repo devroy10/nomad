@@ -11,6 +11,7 @@ export const columnSchema = z.object({
   rootCause: z.string().nullable().optional(),
   fixApplied: z.string().nullable().optional(),
   createdAt: z.date(),
+  date: z.date(),
   resolvedAt: z.date().nullable().optional(),
 });
 

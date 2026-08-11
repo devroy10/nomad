@@ -7,9 +7,9 @@ export function getLevelColor(
   switch (value) {
     case "critical":
       return {
-        text: "text-destructive",
-        bg: "bg-destructive",
-        border: "border-destructive",
+        text: "text-critical",
+        bg: "bg-critical",
+        border: "border-critical",
       };
     case "error":
       return {
@@ -37,8 +37,8 @@ export function getLevelRowClassName(value: Level): string {
   switch (value) {
     case "critical":
       return cn(
-        "bg-destructive/10 hover:bg-destructive/15 focus-visible:bg-destructive/15 data-detail:bg-destructive/20 data-checked:bg-destructive/20",
-        "dark:bg-destructive/15 dark:hover:bg-destructive/25 dark:data-detail:bg-destructive/30 dark:data-checked:bg-destructive/30",
+        "bg-critical/10 hover:bg-critical/15 focus-visible:bg-critical/15 data-detail:bg-critical/20 data-checked:bg-critical/20",
+        "dark:bg-critical/15 dark:hover:bg-critical/25 dark:data-detail:bg-critical/30 dark:data-checked:bg-critical/30",
       );
     case "error":
       return cn(

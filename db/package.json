@@ -17,7 +17,8 @@
     "typecheck": "tsc -p tsconfig.json",
     "generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
-    "migrate": "node dist/migrate.js"
+    "migrate": "node dist/migrate.js",
+    "seed": "tsx src/seed.ts"
   },
   "dependencies": {
     "drizzle-orm": "^0.45.1",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@types/pg": "^8.11.0",
     "drizzle-kit": "^0.31.0",
+    "tsx": "^4.19.0",
     "typescript": "^5"
   }
 }

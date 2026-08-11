@@ -138,7 +138,9 @@ function ClientInner() {
       toolbarActions={[
         <RefreshButton key="refresh" onClick={refetch} />,
       ]}
-      chartSlot={<TimelineChart data={chartData ?? []} className="-mb-2" />}
+      chartSlot={
+        <TimelineChart data={chartData ?? []} className="-mb-2" columnId="date" />
+      }
       sheetSlot={
         <IncidentSheetSlot
           sheetFields={sheetFields}
@@ -167,7 +169,11 @@ function IncidentSheetSlot({
     ColumnSchema,
     unknown
   >();
-  const selectedRowKey = Object.keys(rowSelection)?.[0];
+  const isMultiSelect = !!table.options.enableMultiRowSelection;
+  const uuid = useFilterState((s) => s.uuid) as string | null | undefined;
+  const selectedRowKey = isMultiSelect
+    ? (uuid ?? undefined)
+    : Object.keys(rowSelection)?.[0];
   const selectedRow = React.useMemo(() => {
     if (isLoading && !selectedRowKey) return undefined;
     return table

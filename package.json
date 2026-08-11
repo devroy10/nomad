@@ -10,6 +10,7 @@
     "db:generate": "pnpm --filter @nomad/db run generate",
     "db:migrate": "pnpm --filter @nomad/db run migrate",
     "db:push": "pnpm --filter @nomad/db run db:push",
+    "db:seed": "pnpm --filter @nomad/db run seed",
     "dev:worker": "pnpm --filter @nomad/worker run dev",
     "dev:api": "pnpm --filter @nomad/api run dev",
     "dev:target": "pnpm --filter @nomad/target run dev",

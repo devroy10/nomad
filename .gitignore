@@ -31,3 +31,8 @@ yarn-error.log*
 
 # Test / coverage
 coverage/
+
+#misc
+init
+landing
+.playwright*/

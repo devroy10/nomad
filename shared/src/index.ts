@@ -89,7 +89,13 @@ export interface FacetMetadata {
   max: number | undefined;
 }
 
-export type BaseChartDatum = { timestamp: number; value: number };
+export type BaseChartDatum = {
+  timestamp: number;
+  info: number;
+  warning: number;
+  error: number;
+  critical: number;
+};
 
 export interface TableResponse<T> {
   data: T[];

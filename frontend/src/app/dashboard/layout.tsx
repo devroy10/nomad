@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Activity } from "lucide-react";
+import { Wordmark } from "@/components/ui/wordmark";
 
 const links = [
   { href: "/dashboard/incidents", label: "Incidents" },
@@ -13,13 +13,15 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur">
+      <header className="sticky top-0 z-50 border-b border-border bg-background">
         <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
-          <Link href="/" className="flex items-center gap-2 text-sm font-semibold">
-            <Activity className="size-4" />
-            Nomad
+          <Link
+            href="/"
+            className="text-foreground transition-colors hover:text-foreground/80"
+          >
+            <Wordmark />
           </Link>
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
+          <div className="flex items-center gap-6 font-sans text-[14px] font-medium -tracking-[0.03em] text-muted-foreground">
             {links.map((link) => (
               <Link
                 key={link.href}

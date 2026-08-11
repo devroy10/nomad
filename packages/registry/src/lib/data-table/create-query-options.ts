@@ -72,7 +72,7 @@ export function createDataTableQueryOptions<TData, TMeta>(config: {
           `${getBaseUrl()}${config.apiEndpoint}${serialize}`,
         );
         const json = await response.json();
-        return SuperJSON.parse<InfiniteQueryResponse<TData, TMeta>>(json);
+        return SuperJSON.deserialize<InfiniteQueryResponse<TData, TMeta>>(json);
       },
       initialPageParam: { cursor: initialCursor, direction: "next" },
       getPreviousPageParam: (firstPage) => {

@@ -1,6 +1,6 @@
 import { and, sql, type Column, type SQL } from "drizzle-orm";
 import type { PgTable } from "drizzle-orm/pg-core";
-import type { BaseChartDatum } from "@nomad/shared";
+import type { BaseChartDatum, Level } from "@nomad/shared";
 import type { DrizzleDB } from "./types.js";
 
 function evaluateIntervalMs(durationMs: number): number {
@@ -29,16 +29,25 @@ function evaluateIntervalMs(durationMs: number): number {
   return 46080000;
 }
 
-type ChartRow = { bucket: Date; value: number };
+const CHART_LEVELS: Level[] = ["info", "warning", "error", "critical"];
+
+type ChartRow = { bucket: Date; level: string | null; value: number };
+
+function emptyDatum(timestamp: number): BaseChartDatum {
+  return { timestamp, info: 0, warning: 0, error: 0, critical: 0 };
+}
 
 /**
- * Bucket counts over the filtered time range using `date_bin`.
- * Returns `{ timestamp, value }` points for the frontend timeline chart.
+ * Bucket counts per severity level over the filtered time range using `date_bin`.
+ * Returns `{ timestamp, info, warning, error, critical }` points for the
+ * frontend stacked timeline chart. Buckets with no rows for a given level are
+ * zeroed so every level renders in the stack.
  */
 export async function buildChartData(
   db: DrizzleDB,
   table: PgTable,
   dateColumn: Column,
+  levelColumn: Column,
   conditions: SQL[],
   dateRange?: (Date | null)[],
 ): Promise<BaseChartDatum[]> {
@@ -80,19 +89,31 @@ export async function buildChartData(
   const raw = await db.execute(
     sql`SELECT
         date_bin(${intervalSeconds + " seconds"}::interval, ${dateColumn}, ${minDate.toISOString()}::timestamptz) as bucket,
+        ${levelColumn} as level,
         COUNT(*)::int as value
       FROM ${table}
       ${whereCondition ? sql`WHERE ${whereCondition}` : sql``}
-      GROUP BY bucket
+      GROUP BY bucket, ${levelColumn}
       ORDER BY bucket ASC`,
   );
 
-  const result: ChartRow[] = Array.isArray(raw)
+  const rows: ChartRow[] = Array.isArray(raw)
     ? (raw as ChartRow[])
     : (raw as unknown as { rows: ChartRow[] }).rows;
 
-  return result.map((r) => ({
-    timestamp: new Date(r.bucket).getTime(),
-    value: Number(r.value),
-  }));
+  const byBucket = new Map<number, BaseChartDatum>();
+  for (const row of rows) {
+    const timestamp = new Date(row.bucket).getTime();
+    const level = row.level as Level | null;
+    if (!level || !CHART_LEVELS.includes(level)) continue;
+
+    let datum = byBucket.get(timestamp);
+    if (!datum) {
+      datum = emptyDatum(timestamp);
+      byBucket.set(timestamp, datum);
+    }
+    datum[level] = Number(row.value);
+  }
+
+  return [...byBucket.values()];
 }

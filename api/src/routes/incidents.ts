@@ -41,12 +41,18 @@ export async function incidentsRoutes(app: FastifyInstance) {
       getDb(),
       incidents,
       incidents.createdAt,
+      incidents.level,
       result.allConditions,
       search.date as (Date | null)[] | undefined,
     );
 
+    const data = (result.data as Incident[]).map((row) => ({
+      ...row,
+      date: row.createdAt,
+    }));
+
     const payload = {
-      data: result.data as unknown as Incident[],
+      data,
       meta: {
         totalRowCount: result.totalRowCount,
         filterRowCount: result.filterRowCount,

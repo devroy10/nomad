@@ -1,8 +1,7 @@
 import { NextRequest } from "next/server";
+import { API_INTERNAL_URL } from "@/lib/api-internal-url";
 
 export const dynamic = "force-dynamic";
-
-const API_INTERNAL_URL = process.env.API_INTERNAL_URL ?? "http://api:3000";
 
 export async function POST(req: NextRequest) {
   const { incidentId } = (await req.json()) as { incidentId?: string };

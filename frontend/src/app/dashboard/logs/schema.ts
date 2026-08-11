@@ -15,6 +15,7 @@ export const columnSchema = z.object({
   message: z.string(),
   structuredData: z.record(z.string(), z.string()).nullable().optional(),
   timestamp: z.date(),
+  date: z.date(),
 });
 
 export type ColumnSchema = z.infer<typeof columnSchema>;

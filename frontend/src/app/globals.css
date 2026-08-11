@@ -1,7 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@source "../../packages/registry/src";
+@source "../../../packages/registry/src";
+@source "../components";
+@source "./(landing)";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -35,6 +37,7 @@
   --warning: hsl(24.6 95% 53.1%);
   --error: hsl(0 84.2% 60.2%);
   --info: hsl(198.63 88.66% 48.43%);
+  --critical: hsl(348 83% 47%);
   --sidebar: hsl(0 0% 98%);
   --sidebar-foreground: hsl(240 5.3% 26.1%);
   --sidebar-primary: hsl(240 5.9% 10%);
@@ -43,6 +46,21 @@
   --sidebar-accent-foreground: hsl(240 5.9% 10%);
   --sidebar-border: hsl(220 13% 91%);
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
+
+  --bg-primary: #f7fbfc;
+  --bg-surface-1: #f5f6f7;
+  --bg-surface-2: #e8ebee;
+  --bg-surface-3: #dee3e7;
+  --bg-surface-4: #cbd4db;
+  --text-primary: #1f2931;
+  --text-secondary: #2b3a40;
+  --text-tertiary: #3c4a4e;
+  --text-quaternary: #607f88;
+  --border-default: #e8ebee;
+  --border-point: #cbd4db;
+  --text-muted: #3c4a4e;
+  --accent-primary: #2ea39a;
+  --accent-secondary: #ffb162;
 }
 
 .dark {
@@ -74,6 +92,7 @@
   --warning: hsl(24.6 95% 53.1%);
   --error: hsl(0 84.2% 60.2%);
   --info: hsl(198.63 88.66% 48.43%);
+  --critical: hsl(348 90% 62%);
   --sidebar: hsl(240 5.9% 10%);
   --sidebar-foreground: hsl(240 4.8% 95.9%);
   --sidebar-primary: hsl(224.3 76.3% 48%);
@@ -82,6 +101,21 @@
   --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
   --sidebar-border: hsl(240 3.7% 15.9%);
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
+
+  --bg-primary: #0f1f22;
+  --bg-surface-1: #1a2127;
+  --bg-surface-2: #212a2d;
+  --bg-surface-3: #283336;
+  --bg-surface-4: #314146;
+  --text-primary: #eef0f2;
+  --text-secondary: #c0c6cc;
+  --text-tertiary: #a1a5a9;
+  --text-quaternary: #798189;
+  --border-default: #283336;
+  --border-point: #314146;
+  --text-muted: #a1a5a9;
+  --accent-primary: #3bbdb2;
+  --accent-secondary: #ffb162;
 }
 
 @theme inline {
@@ -108,14 +142,34 @@
   --color-warning: var(--warning);
   --color-error: var(--error);
   --color-info: var(--info);
+  --color-critical: var(--critical);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
+
+  --color-bg-primary: var(--bg-primary);
+  --color-surface-1: var(--bg-surface-1);
+  --color-surface-2: var(--bg-surface-2);
+  --color-surface-3: var(--bg-surface-3);
+  --color-surface-4: var(--bg-surface-4);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-quaternary: var(--text-quaternary);
+  --color-text-muted: var(--text-muted);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-border-point: var(--border-point);
+  --font-commit-mono: var(--font-commit-mono);
+  --breakpoint-tablet: 850px;
+  --breakpoint-desktop: 1100px;
 
   @keyframes accordion-down {
     from {
@@ -143,6 +197,77 @@
   }
 }
 
+/* ---- landing base ---- */
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+/* ---- hero entrance keyframes (registered globally so arbitrary
+   animate-[hero-*] utilities resolve) ---- */
+@keyframes hero-uncover {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -100px;
+  }
+}
+
+@keyframes hero-fill {
+  0% {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes hero-fade {
+  0% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hero-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-blink {
+  0%,
+  5%,
+  16%,
+  to {
+    opacity: 1;
+    transform: translate(0);
+  }
+  8%,
+  13% {
+    opacity: 1;
+    transform: translate(1.5px, 2px);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 @layer base {
   *,
   ::after,
@@ -156,4 +281,132 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
+}
+
+/* ---- shared "containers" grid chrome ---- */
+.containers {
+  width: 100%;
+  max-width: 100%;
+  padding-inline: calc(var(--spacing) * 6);
+  margin-inline: auto;
+}
+
+@media not all and (min-width: 850px) {
+  .containers {
+    padding-inline: calc(var(--spacing) * 4);
+  }
+}
+
+@media (min-width: 850px) {
+  .containers {
+    max-width: calc(var(--spacing) * 200);
+  }
+}
+
+@media (min-width: 1100px) {
+  .containers {
+    max-width: calc(var(--spacing) * 360);
+  }
+}
+
+/* ---- dashed seam utilities ---- */
+.border-dashed-t,
+.border-dashed-b,
+.border-dashed-l,
+.border-dashed-r,
+.border-dashed-spaced-y {
+  position: relative;
+}
+
+.border-dashed-spaced-y::before,
+.border-dashed-spaced-y::after {
+  content: "";
+  z-index: 10;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--border-default) 0,
+    var(--border-default) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  height: 1px;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.border-dashed-spaced-y::before {
+  top: 0;
+}
+
+.border-dashed-spaced-y::after {
+  bottom: 0;
+}
+
+.border-dashed-t::before {
+  content: "";
+  z-index: 10;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--border-default) 0,
+    var(--border-default) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  height: 1px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.border-dashed-b::after {
+  content: "";
+  z-index: 10;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--border-default) 0,
+    var(--border-default) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  height: 1px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.border-dashed-l::before {
+  content: "";
+  z-index: 10;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--border-default) 0,
+    var(--border-default) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  width: 1px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.border-dashed-r::after {
+  content: "";
+  z-index: 10;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--border-default) 0,
+    var(--border-default) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  width: 1px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
 }

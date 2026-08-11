@@ -42,12 +42,18 @@ export async function logsRoutes(app: FastifyInstance) {
       getDb(),
       logs,
       logs.timestamp,
+      logs.level,
       result.allConditions,
       search.date as (Date | null)[] | undefined,
     );
 
+    const data = (result.data as LogEntry[]).map((row) => ({
+      ...row,
+      date: row.timestamp,
+    }));
+
     const payload = {
-      data: result.data as unknown as LogEntry[],
+      data,
       meta: {
         totalRowCount: result.totalRowCount,
         filterRowCount: result.filterRowCount,
