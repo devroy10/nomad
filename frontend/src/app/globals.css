@@ -276,6 +276,18 @@ html {
   ::file-selector-button {
     border-color: var(--border);
   }
+  
+  html::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  html::-webkit-scrollbar-thumb { 
+    background-color: var(--color-foreground);
+  }
+
+  html::-webkit-scrollbar-track {
+    background-color: var(--color-background);
+  } 
 }
 
 body {
